@@ -32,21 +32,21 @@
     "near": [
         "the sorrento",
         "the six bells",
-        "caf\u00e9 rouge",
+        "café rouge",
         "raja indian cuisine",
         "the portland arms",
         "all bar one",
-        "caf\u00e9 brazil",
+        "café brazil",
         "ranch",
         "yippee noodle bar",
         "clare hall",
-        "rainbow vegetarian caf\u00e9",
-        "caf\u00e9 adriatic",
+        "rainbow vegetarian café",
+        "café adriatic",
         "express by holiday inn",
         "the bakers",
         "burger king",
         "avalon",
-        "caf\u00e9 sicilia",
+        "café sicilia",
         "crowne plaza hotel",
         "the rice boat"
     ],
@@ -89,9 +89,9 @@
     "price_range": [
         "high",
         "moderate",
-        "\u00a320-25",
-        "less than \u00a320",
+        "£20-25",
+        "less than £20",
         "cheap",
-        "more than \u00a330"
+        "more than £30"
     ]
 }
