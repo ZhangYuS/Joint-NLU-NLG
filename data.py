@@ -9,6 +9,7 @@ class DataLoader():
 		self.build_vocab()
 
 		# collect data
+		# 每条数据为一个字典，parse，ref-parse，query，ref-query，其中parse为形式语言，query为自然语言
 		self.data = {'train': [], 'valid': [], 'test': [], 'unsup_parse': [], 'unsup_query': []}
 		self.parseData(config.train_path, 'train')
 		self.parseData(config.valid_path, 'valid')
@@ -22,6 +23,7 @@ class DataLoader():
 		self.idx2word['query'] = {idx: w for w, idx in self.vocab['query'].items()}
 		self.idx2word['parse'] = {idx: w for w, idx in self.vocab['parse'].items()}
 
+		# slot-value列表
 		if config.dataset == 'e2e':
 			self.loadOntology()
 			self.slot_list = ['name', 'eat_type', 'food', 'price_range', 'customer_rating', 'area', 'family_friendly', 'near']
@@ -32,6 +34,10 @@ class DataLoader():
 			self.ontology = json.load(f)
 
 	def build_vocab(self):
+
+		# 该函数用于建立字典，self.vocab:字典变量，key为 query 和 parse
+		# query 用于处理自然语言转化为对应的id，parse 用于转换形式语言到id
+
 		self.vocab = {}
 		self.vocab['query'] = {'<PAD>': 0, '<SOS>': 1, '<EOS>': 2, '<UNK>': 3} # word2id for query
 		with open(self.config.word2count_query) as f:
@@ -100,6 +106,8 @@ class DataLoader():
 				y_mask.append(mask)
 
 		# nlu classification target
+		# target：字典，key为每一个slot，value为一个长度为batch_size的long tensor，每一个值对应着这条数据中对应slot的值的id
+
 		if self.config.dataset == 'e2e':
 			target = {}
 			for slot in self.slot_list:
@@ -158,6 +166,9 @@ class DataLoader():
 		
 
 	def init(self):
+
+		# 指针初始化为0，打乱数据
+
 		self.p = {'train': 0, 'valid': 0, 'test': 0, 'unsup_query': 0, 'unsup_parse': 0}
 		if self.config.shuffle:
 			random.shuffle(self.data['train'])
@@ -168,6 +179,9 @@ class DataLoader():
 
 
 	def parseData(self, path, dType):
+
+		# 用于解析数据，数据的原始形式为 自然语言 \t 形式语言，如果没有对应一方，则对应位置为none，例如自然语言 \t none
+
 		f = open(path)
 		for line in f.readlines():
 			example = {}
