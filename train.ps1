@@ -36,7 +36,7 @@ $model_dir = "checkpoint/" + $mode + "/" + $model_name
 $result = "res/result/" + $mode + "/" + $model_name + ".json"
 $log = "res/log/" + $mode + "/" + $model_name + ".log"
 
-echo python main.py --dataset=$dataset --mode=$mode --batch_size=$batch_size --seed=$seed `
+python main.py --dataset=$dataset --mode=$mode --batch_size=$batch_size --seed=$seed `
 				--train_path=$train_path --valid_path=$valid_path --test_path=$test_path `
 				--word2count_query=$word2count_nl --word2count_parse=$word2count_mr --vocab_size=$vocab `
 				--embed_size=$dim --hidden_size=$dim --latent_size=$dim `

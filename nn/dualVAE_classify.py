@@ -58,10 +58,12 @@ class DualVAE_classify(nn.Module):
 		E, H = config.embed_size, config.hidden_size
 		Z = config.latent_size
 		D = config.dropout
-		V = {}
+		V = {}  # vocab_size
 
 		# model components
 		self.encode = nn.ModuleDict({})
+
+		# 如果共享隐藏变量z的话，则直接使用一个转化为隐藏变量的网络，否则则分别定义
 		if config.share_z:
 			self.enc2lat = Hidden2Gaussian(2*H, Z, config)
 			self.z_emb = nn.Linear(Z, H)
@@ -118,7 +120,7 @@ class DualVAE_classify(nn.Module):
 			tgt = 'parse' if src == 'query' else 'query'
 
 			# enc_out: (B, T, 2H) & state: tuple of (L, B, 2H)
-			enc_output, enc_state = self.encode[src](enc_input[src], enc_len[src])
+			enc_output, enc_state = self.encode[src](enc_input[src], enc_len[src].cpu())
 
 			if self.config.share_z:
 				mu, logvar = self.enc2lat(enc_output, src, batch) # (B, Z)
