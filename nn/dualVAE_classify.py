@@ -62,6 +62,8 @@ class DualVAE_classify(nn.Module):
 
 		# model components
 		self.encode = nn.ModuleDict({})
+
+		# 如果共享隐藏变量z的话，则直接使用一个转化为隐藏变量的网络，否则则分别定义
 		if config.share_z:
 			self.enc2lat = Hidden2Gaussian(2*H, Z, config)
 			self.z_emb = nn.Linear(Z, H)
