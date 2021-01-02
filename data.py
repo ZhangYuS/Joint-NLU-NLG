@@ -28,20 +28,20 @@ class DataLoader():
 		self.init()
 
 	def loadOntology(self):
-		with open(self.config.ontology) as f:
+		with open(self.config.ontology, encoding='utf8') as f:
 			self.ontology = json.load(f)
 
 	def build_vocab(self):
 		self.vocab = {}
 		self.vocab['query'] = {'<PAD>': 0, '<SOS>': 1, '<EOS>': 2, '<UNK>': 3} # word2id for query
-		with open(self.config.word2count_query) as f:
+		with open(self.config.word2count_query, encoding='utf8') as f:
 			word2count = json.load(f)
 		for i in range(min(self.config.vocab_size, len(word2count))):
 			w = word2count[i][0]
 			self.vocab['query'][w] = len(self.vocab['query'])
 
 		self.vocab['parse'] = {'<PAD>': 0, '<SOS>': 1, '<EOS>': 2, '<UNK>': 3} # word2id for parse
-		with open(self.config.word2count_parse) as f:
+		with open(self.config.word2count_parse, encoding='utf8') as f:
 			word2count = json.load(f)
 		for i in range(min(self.config.vocab_size, len(word2count))):
 			w = word2count[i][0]
@@ -168,7 +168,7 @@ class DataLoader():
 
 
 	def parseData(self, path, dType):
-		f = open(path)
+		f = open(path, encoding='utf8')
 		for line in f.readlines():
 			example = {}
 			query, parse = line.strip().split('\t')
